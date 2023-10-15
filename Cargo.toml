@@ -1,0 +1,11 @@
+[package]
+name = "tarantool-rust-test"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tarantool = "3.0"
+serde = "1.0"
+
+[lib]
+crate-type = ["cdylib"]
