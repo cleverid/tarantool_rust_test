@@ -14,10 +14,11 @@ RUN rm src/*.rs
 COPY ./src ./src
 
 # 5. Build for release.
-RUN rm ./target/release/deps/tarantool*
+RUN rm ./target/release/deps/libgant*
 RUN cargo build --release
 
-FROM tarantool/tarantool:1.10.2
-COPY --from=builder /gant/target/release/libgant.so /opt/tarantool/gant.so
-COPY app.lua /opt/tarantool
-CMD ["tarantool", "/opt/tarantool/app.lua"]
+FROM tarantool/tarantool:2.10.8-ubuntu20.04
+COPY --from=builder /gant/target/release/libgant.so /usr/local/lib/tarantool/gant.so
+WORKDIR /gant
+COPY app.lua /gant
+CMD ["tarantool", "/gant/app.lua"]
