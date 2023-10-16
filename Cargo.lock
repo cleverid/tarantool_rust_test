@@ -323,6 +323,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "gant"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "tarantool",
+]
+
+[[package]]
 name = "generic-array"
 version = "0.14.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -758,14 +766,6 @@ dependencies = [
  "proc-macro2 1.0.69",
  "quote 1.0.33",
  "syn 1.0.109",
-]
-
-[[package]]
-name = "tarantool-rust-test"
-version = "0.1.0"
-dependencies = [
- "serde",
- "tarantool",
 ]
 
 [[package]]

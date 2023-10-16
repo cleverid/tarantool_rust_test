@@ -1,12 +1,14 @@
 version: '2'
 
 services:
-  tarantool1:
+  tarantool:
     build: .
     networks:
       - tarantool
     ports:
       - "3301:3301"
+    environment:
+      - LUA_CPATH=/opt/tarantool/?.so
 
 networks:
   tarantool:
