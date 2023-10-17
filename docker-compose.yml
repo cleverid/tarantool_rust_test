@@ -7,8 +7,8 @@ services:
       - tarantool
     ports:
       - "3301:3301"
-    # environment:
-    #   - LUA_CPATH=/opt/tarantool/lib?.so
+    environment:
+      - LUA_CPATH=/app/?.so
 
 networks:
   tarantool:

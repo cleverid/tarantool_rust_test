@@ -1,7 +1,7 @@
 FROM rust:1.73 as builder
 
-RUN USER=root cargo new --lib gant
-WORKDIR /gant
+RUN USER=root cargo new --lib easy
+WORKDIR /easy
 
 COPY ./Cargo.lock ./Cargo.lock
 COPY ./Cargo.toml ./Cargo.toml
@@ -14,11 +14,11 @@ RUN rm src/*.rs
 COPY ./src ./src
 
 # 5. Build for release.
-RUN rm ./target/release/deps/libgant*
+RUN rm ./target/release/deps/easy*
 RUN cargo build --release
 
 FROM tarantool/tarantool:2.10.8-ubuntu20.04
-COPY --from=builder /gant/target/release/libgant.so /usr/local/lib/tarantool/gant.so
-WORKDIR /gant
-COPY app.lua /gant
-CMD ["tarantool", "/gant/app.lua"]
+WORKDIR /app
+COPY --from=builder /easy/target/release/libeasy.so ./easy.so
+COPY init.lua .
+CMD ["tarantool", "./init.lua"]

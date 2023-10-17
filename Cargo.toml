@@ -1,11 +1,16 @@
 [package]
-name = "gant"
+name = "easy"
 version = "0.1.0"
-edition = "2021"
+authors = [
+    "Dmitriy Koltsov <dkoltsov@picodata.io>",
+    "Anton Melnikov <volt0@picodata.io>"
+]
+edition = "2018"
+license = "BSD-2-Clause"
 
-[dependencies]
+[dependencies.tarantool]
 tarantool = "3.0"
-serde = "1.0"
 
 [lib]
+test = false
 crate-type = ["cdylib"]

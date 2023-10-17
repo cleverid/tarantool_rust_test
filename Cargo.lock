@@ -228,6 +228,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "easy"
+version = "0.1.0"
+dependencies = [
+ "tarantool",
+]
+
+[[package]]
 name = "fnv"
 version = "1.0.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -320,14 +327,6 @@ dependencies = [
  "pin-project-lite",
  "pin-utils",
  "slab",
-]
-
-[[package]]
-name = "gant"
-version = "0.1.0"
-dependencies = [
- "serde",
- "tarantool",
 ]
 
 [[package]]
