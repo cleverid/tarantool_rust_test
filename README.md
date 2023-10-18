@@ -7,7 +7,7 @@ docker-compose up --build
 ```
 docker-compose exec -ti tarantool console
 conn = require('net.box').connect(3301)
-conn:call('easy')
+conn:call('app.easy')
 ```
 
 # Ошибка

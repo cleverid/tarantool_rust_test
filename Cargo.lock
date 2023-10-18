@@ -3,6 +3,13 @@
 version = 3
 
 [[package]]
+name = "app"
+version = "0.1.0"
+dependencies = [
+ "tarantool",
+]
+
+[[package]]
 name = "async-trait"
 version = "0.1.74"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -225,13 +232,6 @@ dependencies = [
  "libc",
  "quote 0.6.13",
  "syn 0.15.44",
-]
-
-[[package]]
-name = "easy"
-version = "0.1.0"
-dependencies = [
- "tarantool",
 ]
 
 [[package]]

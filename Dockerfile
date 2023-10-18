@@ -1,12 +1,22 @@
-FROM rust:1.73 as builder
-WORKDIR /easy
-COPY ./Cargo.lock ./Cargo.lock
-COPY ./Cargo.toml ./Cargo.toml
-COPY ./src ./src
+FROM tarantool/tarantool:2-ubuntu20.04 as build
+
+# Install rust from nightly
+RUN apt update && \
+    apt install build-essential curl -y && \
+    curl https://sh.rustup.rs -sSf | bash -s -- --default-toolchain nightly -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Create project and cash dependencies
+RUN USER=root cargo new --lib app
+WORKDIR /app
+COPY ./Cargo.lock ./Cargo.toml .
 RUN cargo build --release
 
-FROM tarantool/tarantool:2.10.8-ubuntu20.04
-WORKDIR /app
-COPY --from=builder /easy/target/release/libeasy.so ./easy.so
-COPY init.lua .
-CMD ["tarantool", "./init.lua"]
+# Copy code application and build
+RUN rm src/*.rs
+COPY ./src ./src
+COPY ./init.lua .
+RUN cargo build --release
+
+RUN cp /app/target/release/libapp.so /app/app.so
+CMD ["tarantool", "/app/init.lua"]
