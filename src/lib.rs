@@ -1,13 +1,12 @@
+#![allow(dead_code)]
 use tarantool::proc;
 
 #[proc]
-fn easy() -> i32 {
+fn easy() {
     println!("hello world");
-    123
 }
 
 #[proc]
-fn easy2() -> i32 {
+fn easy2() {
     println!("hello world -- easy2");
-    0
 }

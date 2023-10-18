@@ -18,5 +18,5 @@ COPY ./src ./src
 COPY ./init.lua .
 RUN cargo build --release
 
-RUN cp /app/target/release/libapp.so /app/app.so
+ENV LUA_CPATH=/app/target/release/lib?.so
 CMD ["tarantool", "/app/init.lua"]
