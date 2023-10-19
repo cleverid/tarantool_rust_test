@@ -1,21 +1,15 @@
-# Запуск
+## Запуск
 
 docker-compose up --build
 
-# Подключение 
+## Подключение 
 
 ```
 docker-compose exec -ti tarantool console
-conn = require('net.box').connect(3301)
-conn:call('easy')
 ```
 
-# Ошибка
-
+## Вызов хранимой функции
 ```
-unix/:/var/run/tarantool/tarantool.sock> conn:call('easy')
----
-- error: 'Failed to dynamically load function ''easy'': /tmp/tntQkYqIg/easy.so: undefined
-    symbol: easy'
-...
+box.schema.func.call('app.easy')
+box.schema.func.call('app.easy2')
 ```
