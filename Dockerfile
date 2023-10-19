@@ -3,7 +3,8 @@ FROM ubuntu:20.04 as build
 # Install rust from nightly
 RUN apt update && \
     apt install build-essential curl -y && \
-    curl https://sh.rustup.rs -sSf | bash -s -- --default-toolchain nightly -y
+    curl https://sh.rustup.rs -sSf | bash -s -- --default-toolchain nightly -y && \
+    rm -rf /var/lib/apt/lists/*
 ENV PATH="/root/.cargo/bin:${PATH}"
 
 # Create project and cash dependencies
