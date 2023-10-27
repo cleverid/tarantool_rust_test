@@ -32,7 +32,8 @@ fn fiber_async() -> Result<bool, String> {
         let id = nanoid!();
         for step in 1..100 {
             println!("{:?} - {:?}", id, step);
-            fiber::sleep(std::time::Duration::from_millis(100));
+            // fiber::sleep(std::time::Duration::from_millis(100));
+            fiber::fiber_yield();
         }
         0
     });
