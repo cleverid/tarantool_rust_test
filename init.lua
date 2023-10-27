@@ -1,9 +1,10 @@
 box.cfg({listen = 3301})
 box.schema.func.create('app.insert', { language = 'C', if_not_exists = true })
 box.schema.user.grant('guest', 'execute', 'function', 'app.insert', { if_not_exists = true })
+box.schema.func.create('app.fiber_async', { language = 'C', if_not_exists = true })
+box.schema.user.grant('guest', 'execute', 'function', 'app.fiber_async', { if_not_exists = true })
 
 box.once('bootstrap_bench', function() 
-    print "asd=============="
     local plan_item = box.schema.space.create('plan_item', { engine = 'vinyl' } )
     plan_item:format{
         { name = 'id', type = 'string' },

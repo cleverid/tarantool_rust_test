@@ -2,7 +2,7 @@
 
 use nanoid::nanoid;
 use chrono::Utc;
-use tarantool::{error::Error, fiber::sleep, proc, space::Space, transaction::transaction};
+use tarantool::{error::Error, fiber, proc, space::Space, transaction::transaction};
 
 #[proc]
 fn insert() -> Result<bool, String> {
@@ -22,6 +22,23 @@ fn insert() -> Result<bool, String> {
     let diff = end_time - start_time;
     println!("Total time taken to run is {}", diff.num_milliseconds());
 
-    sleep(std::time::Duration::from_millis(1));
+    fiber::sleep(std::time::Duration::from_millis(1));
+    Ok(true)
+}
+
+#[proc]
+fn fiber_async() -> Result<bool, String> {
+    let mut f = fiber::Fiber::new("min_max", &mut |_: Box<()>| {
+        let id = nanoid!();
+        for step in 1..100 {
+            println!("{:?} - {:?}", id, step);
+            fiber::sleep(std::time::Duration::from_millis(100));
+        }
+        0
+    });
+    f.set_joinable(false);
+    f.start(());
+    // f.join();
+
     Ok(true)
 }

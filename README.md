@@ -1,3 +1,8 @@
+## TODO
+
+- Сохранить время
+- Передать параметр в функцию
+
 ## Запуск
 
 docker-compose up --build
@@ -11,6 +16,7 @@ docker-compose exec -ti tarantool console
 ## Вызов хранимой функции
 ```
 box.schema.func.call('app.insert')
+box.schema.func.call('app.fiber_async')
 ```
 
 ## Задачи
