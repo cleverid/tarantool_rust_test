@@ -10,6 +10,8 @@ box.once('bootstrap_bench', function()
         { name = 'id', type = 'string' },
         { name = 'title', type = 'string' },
         { name = 'group_id', type = 'string' },
+        { name = 'start_time', type = 'unsigned' },
+        { name = 'end_time', type = 'unsigned' },
     }
     plan_item:create_index('primary', { type = 'TREE', parts = { 1, 'string' } })
     plan_item:create_index('group', { type = 'TREE', parts = { 3, 'string' } })
