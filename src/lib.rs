@@ -9,19 +9,21 @@ fn insert() -> Result<bool, String> {
     let plan_item_space = Space::find("plan_item").ok_or_else(|| "Can't find space plan_item".to_string())?;
 
     let start_time = Utc::now().time();
-    transaction(|| -> Result<(), Error> {
-        for _ in 1..100_000 {
-            let id = nanoid!();
-            let title = "Название работы".to_string();
-            let group_id = nanoid!();
-            let start_time = Utc::now().timestamp_micros();
-            let end_time = start_time + 1000 * 60 * 60 * 24;
-            let row = (id, title, group_id, start_time, end_time);
-            plan_item_space.replace(&row)?;
-        }
-        Ok(())
-    })
-    .unwrap();
+    for _ in 1..10 {
+        transaction(|| -> Result<(), Error> {
+            for _ in 1..10_000 {
+                let id = nanoid!();
+                let title = "Название работы".to_string();
+                let group_id = nanoid!();
+                let start_time = Utc::now().timestamp_micros();
+                let end_time = start_time + 1000 * 60 * 60 * 24;
+                let row = (id, title, group_id, start_time, end_time);
+                plan_item_space.insert(&row)?;
+            }
+            Ok(())
+        })
+        .unwrap();
+    }
 
     let end_time = Utc::now().time();
     let diff = end_time - start_time;
