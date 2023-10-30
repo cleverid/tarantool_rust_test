@@ -1,24 +1,28 @@
 #![allow(dead_code)]
 
-use nanoid::nanoid;
+mod domain;
+
 use chrono::Utc;
+use nanoid::nanoid;
 use tarantool::{error::Error, fiber, proc, space::Space, transaction::transaction};
+
+use crate::domain::Item;
 
 #[proc]
 fn insert() -> Result<bool, String> {
-    let plan_item_space = Space::find("plan_item").ok_or_else(|| "Can't find space plan_item".to_string())?;
+    let plan_item_space =
+        Space::find("plan_item").ok_or_else(|| "Can't find space plan_item".to_string())?;
+
+    let mut items: Vec<Item> = Vec::with_capacity(100_000);
+    for _ in 1..items.capacity() {
+        items.push(Item::random());
+    }
 
     let start_time = Utc::now().time();
-    for _ in 1..10 {
+    for chunk in items.chunks(10) {
         transaction(|| -> Result<(), Error> {
-            for _ in 1..10_000 {
-                let id = nanoid!();
-                let title = "Название работы".to_string();
-                let group_id = nanoid!();
-                let start_time = Utc::now().timestamp_micros();
-                let end_time = start_time + 1000 * 60 * 60 * 24;
-                let row = (id, title, group_id, start_time, end_time);
-                plan_item_space.insert(&row)?;
+            for item in chunk {
+                plan_item_space.insert(&item.to_tuple())?;
             }
             Ok(())
         })
