@@ -12,7 +12,7 @@ pub struct Item {
 
 #[rustfmt::skip]
 //                id      group_id  title    add_time  update_time
-type ItemTuple = (String, String,   String,  i64,      i64);
+pub type ItemTuple = (String, String,   String,  i64,      i64);
 
 impl Item {
     pub fn random() -> Self {
