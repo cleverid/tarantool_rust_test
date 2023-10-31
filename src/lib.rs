@@ -4,6 +4,7 @@ mod domain;
 
 use chrono::Utc;
 use nanoid::nanoid;
+use std::time::Duration;
 use tarantool::{error::Error, fiber, proc, space::Space, transaction::transaction};
 
 use crate::domain::Item;
@@ -32,8 +33,6 @@ fn insert() -> Result<bool, String> {
     let end_time = Utc::now().time();
     let diff = end_time - start_time;
     println!("Total time taken to run is {}", diff.num_milliseconds());
-
-    fiber::sleep(std::time::Duration::from_millis(1));
     Ok(true)
 }
 
@@ -41,14 +40,17 @@ fn insert() -> Result<bool, String> {
 fn fiber_async() -> Result<bool, String> {
     let mut f = fiber::Fiber::new("min_max", &mut |_: Box<()>| {
         let id = nanoid!();
-        for step in 1..100 {
+        let mut arr: Vec<usize> = Vec::with_capacity(1_000_000);
+        for step in 1..arr.capacity() {
+            arr.push(step);
             println!("{:?} - {:?}", id, step);
-            // fiber::sleep(std::time::Duration::from_millis(100));
-            fiber::fiber_yield();
+            fiber::sleep(Duration::from_micros(1));
+            // fiber::fiber_yield();
         }
+        println!("{:?} {:?}", id, arr.len());
         0
     });
-    f.set_joinable(false);
+    f.set_joinable(true);
     f.start(());
     // f.join();
 
