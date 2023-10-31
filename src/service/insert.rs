@@ -5,8 +5,8 @@ use crate::{domain::Item, repository::PlanItemRepository};
 
 #[proc]
 fn insert() -> Result<bool, String> {
-    let items: Vec<Item> = (1..100_000).map(|_| Item::random()).collect();
     let start_time = Utc::now().time();
+    let items: Vec<Item> = (1..=100_000).map(|_| Item::random()).collect();
 
     let repo = PlanItemRepository::init().unwrap();
     for chunk in items.chunks(10) {
